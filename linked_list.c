@@ -21,21 +21,24 @@ void insert_at_tail(struct linked_list *list, size_t value) {
 
 size_t remove_from_head(struct linked_list *list) { 
   struct list_node* del = list->head;
+  size_t value = list->head->value;
   list->head = list->head->next;
   free(del);
-  return 0; 
+  return value; 
 }
 
 size_t remove_from_tail(struct linked_list *list) { 
   struct list_node* curr = list->head->next;
   struct list_node* last = list->head;
+  size_t value;
   while(curr->next != NULL){
     last = curr;
     curr = curr->next;
+    value = curr->value;
   }
   last->next = NULL;
   free(curr);
-  return 0; 
+  return value; 
 }
 
 void free_list(struct linked_list list) {
