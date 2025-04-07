@@ -53,7 +53,7 @@ int number_of_moves(struct game_state start) {
     struct visited_set vs;
     visited_set_init(&vs);
 
-    struct queue q = {.data.head = NULL};
+    struct queue q = {0};
     enqueue(&q, start);
 
     uint64_t start_serial = serialize(start);
