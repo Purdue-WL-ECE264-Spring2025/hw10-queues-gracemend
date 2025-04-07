@@ -2,11 +2,7 @@
 
 #include <stdlib.h>
 
-struct list_node *new_node(size_t value) { 
-  struct list_node *node = malloc(sizeof(struct list_node));
-    node->value = value;
-    node->next = NULL;
-    return node; }
+struct list_node *new_node(size_t value) { return NULL; }
 
 void insert_at_head(struct linked_list *list, size_t value) {
   struct list_node * node = new_node(value);
@@ -15,12 +11,17 @@ void insert_at_head(struct linked_list *list, size_t value) {
 }
 
 void insert_at_tail(struct linked_list *list, size_t value) {
-  struct list_node * node = new_node(value);
-  struct list_node* curr = list->head;
-  while(curr->next != NULL){
-    curr = curr->next;
-  }
-  curr->next = node;
+  struct list_node *node = new_node(value);
+    if (list->head == NULL) {
+        list->head = node;
+        return;
+    }
+
+    struct list_node *curr = list->head;
+    while (curr->next != NULL) {
+        curr = curr->next;
+    }
+    curr->next = node;
 }
 
 size_t remove_from_head(struct linked_list *list) { 
@@ -32,29 +33,17 @@ size_t remove_from_head(struct linked_list *list) {
 }
 
 size_t remove_from_tail(struct linked_list *list) { 
-  if (list->head == NULL) {
-    fprintf(stderr, "Error: tried to remove from empty list\n");
-    exit(EXIT_FAILURE);
+  struct list_node* curr = list->head->next;
+  struct list_node* last = list->head;
+  size_t value;
+  while(curr->next != NULL){
+    last = curr;
+    curr = curr->next;
+    value = curr->value;
   }
-
-  if (list->head->next == NULL) {
-      size_t value = list->head->value;
-      free(list->head);
-      list->head = NULL;
-      return value;
-  }
-
-  struct list_node *prev = NULL;
-  struct list_node *curr = list->head;
-  while (curr->next != NULL) {
-      prev = curr;
-      curr = curr->next;
-  }
-
-  size_t value = curr->value;
-  prev->next = NULL;
+  last->next = NULL;
   free(curr);
-  return value;
+  return value; 
 }
 
 void free_list(struct linked_list list) {
