@@ -27,7 +27,18 @@ bool visited_set_check_and_mark(struct visited_set *vs, uint64_t serialized) {
     vs->visited[index] = true;
     return false;
 }
-
+int is_goal(struct game_state state) {
+    int expected = 1;
+    for (int row = 0; row < 4; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (row == 3 && col == 3)
+                return state.tiles[row][col] == 0;
+            if (state.tiles[row][col] != expected++)
+                return 0;
+        }
+    }
+    return 1;
+}
 void enqueue(struct queue *q, struct game_state state) {
     uint64_t nums = serialize(state);
     insert_at_tail(&(q->data), nums);
@@ -83,16 +94,5 @@ int number_of_moves(struct game_state start) {
     free_list(q.data);
     return -1;
 }
-int is_goal(struct game_state state) {
-    int expected = 1;
-    for (int row = 0; row < 4; row++) {
-        for (int col = 0; col < 4; col++) {
-            if (row == 3 && col == 3)
-                return state.tiles[row][col] == 0;
-            if (state.tiles[row][col] != expected++)
-                return 0;
-        }
-    }
-    return 1;
-}
+
 
