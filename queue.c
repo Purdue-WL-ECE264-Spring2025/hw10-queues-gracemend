@@ -46,8 +46,7 @@ void enqueue(struct queue *q, struct game_state state) {
 
 struct game_state dequeue(struct queue *q) { 
     size_t value = remove_from_head(&(q->data));
-    struct game_state state = deserialize(value);
-    return (state); 
+    return (deserialize(value)); 
 }
 
 int number_of_moves(struct game_state start) { 
