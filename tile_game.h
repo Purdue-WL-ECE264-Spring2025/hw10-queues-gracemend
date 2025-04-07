@@ -17,4 +17,6 @@ void move_down(struct game_state *state);
 void move_left(struct game_state *state);
 void move_right(struct game_state *state);
 
+int is_goal(struct game_state state);
+
 #endif // TILE_GAME_H_
