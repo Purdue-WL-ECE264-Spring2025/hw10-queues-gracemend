@@ -32,17 +32,29 @@ size_t remove_from_head(struct linked_list *list) {
 }
 
 size_t remove_from_tail(struct linked_list *list) { 
-  struct list_node* curr = list->head->next;
-  struct list_node* last = list->head;
-  size_t value;
-  while(curr->next != NULL){
-    last = curr;
-    curr = curr->next;
-    value = curr->value;
+  if (list->head == NULL) {
+    fprintf(stderr, "Error: tried to remove from empty list\n");
+    exit(EXIT_FAILURE);
   }
-  last->next = NULL;
+
+  if (list->head->next == NULL) {
+      size_t value = list->head->value;
+      free(list->head);
+      list->head = NULL;
+      return value;
+  }
+
+  struct list_node *prev = NULL;
+  struct list_node *curr = list->head;
+  while (curr->next != NULL) {
+      prev = curr;
+      curr = curr->next;
+  }
+
+  size_t value = curr->value;
+  prev->next = NULL;
   free(curr);
-  return value; 
+  return value;
 }
 
 void free_list(struct linked_list list) {
