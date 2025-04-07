@@ -48,7 +48,6 @@ void free_list(struct linked_list list) {
     curr = curr->next;
     free(del);
   }
-  free(list.head);
 }
 
 // Utility function to help you debugging, do not modify
